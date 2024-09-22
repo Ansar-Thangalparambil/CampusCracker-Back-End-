@@ -1,8 +1,34 @@
 // Logic to resolve the request
-exports.register=(req,res)=>{
-    // logic
+// import model
+const users = require('../Models/userSchema');
+const model = require('../Models/userSchema');
+// logic for register
+exports.register = async(req,res)=>{
     console.log(`inside controller register function`);
+    // extract data from request body-json() in index.js file converts json data into javascript object
+    const {fullname,email,regnno,department,yearofstudy,username,password}=req.body;
+       try{const existUser = await users.findOne({email});
+
+        if(existUser){
+            res.status(406).json({msg:"Email already exists....please Login"})
+        }
+        else{
+            // create an object from the model
+            const newUser = new users({
+                fullname,
+                email,
+                regnno,
+                department,
+                yearofstudy,
+                username,
+                password
+            })
+            // save the function in mongoose - to permanently store this data in mongodb
+           await newUser.save() 
     //response
-    res.status(200).json("Regn request recieved")
-    
+    res.status(200).json(newUser)
+        }}
+        catch(err){
+            res.status(401).json('Register request failed due to',err);
+        }
 }
