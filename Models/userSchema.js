@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 // schema
-const userSchema = new mongoose .Schema ({
+const userSchema = new mongoose.Schema ({
     fullname : {
         type :String,
         require:true
@@ -28,7 +28,7 @@ const userSchema = new mongoose .Schema ({
     username : {
         type : String,
         require:true,
-        unique:true
+        
     } ,
     password : {
         type : String,
