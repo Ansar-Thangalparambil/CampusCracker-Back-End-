@@ -1,6 +1,6 @@
 // 1)import dotenv
 // Loads .env file contents ito process.env by default
-require ('dotenv').config()
+require('dotenv').config()
 
 // 2)import express
 const express = require('express')

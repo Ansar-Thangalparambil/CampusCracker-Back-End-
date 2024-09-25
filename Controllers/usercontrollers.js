@@ -1,7 +1,7 @@
 // Logic to resolve the request
 // import model
 const users = require('../Models/userSchema');
-const model = require('../Models/userSchema');
+// const model = require('../Models/userSchema');
 // logic for register
 exports.register = async(req,res)=>{
     console.log(`inside controller register function`);
