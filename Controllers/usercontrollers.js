@@ -1,6 +1,10 @@
 // Logic to resolve the request
 // import model
+const { JsonWebTokenError } = require('jsonwebtoken');
 const users = require('../Models/userSchema');
+
+// import jwt
+const jwt = require('jsonwebtoken')
 
 // logic for register
 exports.register = async(req,res)=>{
@@ -41,8 +45,12 @@ exports.login = async(req,res)=>{
     console.log(existingUser);
 
     if(existingUser){
+
+        const token =jwt.sign({ userId:existingUser._id},"campussecretkey1234") /* First argument is the data that is send inside the token and the second argument is the key based on which the token is generated  */
+
         res.status(200).json({
-            existingUser
+            existingUser,
+            token
         })
     }
     else{
