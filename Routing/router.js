@@ -14,5 +14,8 @@ const router = new express.Router();
     // a)Register
     router.post('/user/register',userController.register)
 
+    // b)Login
+    router.post('/user/login',userController.login)
+
 // 4)Export router
 module.exports = router
