@@ -1,7 +1,7 @@
 // Logic to resolve the request
 // import model
 const users = require('../Models/userSchema');
-// const model = require('../Models/userSchema');
+
 // logic for register
 exports.register = async(req,res)=>{
     console.log(`inside controller register function`);
@@ -31,4 +31,24 @@ exports.register = async(req,res)=>{
         catch(err){
             res.status(500).json(`Register request failed due to ${err}`);
         }
+}
+
+//logic for login
+exports.login = async(req,res)=>{
+    console.log('Inside controller login function.');
+    const {email,password} = req.body
+   try{ const existingUser = await users.findOne({email,password})
+    console.log(existingUser);
+
+    if(existingUser){
+        res.status(200).json({
+            existingUser
+        })
+    }
+    else{
+        res.status(406).json('Incorrect email or password!')
+    }}catch(err){
+        res.status(401).json(`Login failed due to ${err}`)
+    }
+    
 }
