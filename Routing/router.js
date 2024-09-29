@@ -17,5 +17,8 @@ const router = new express.Router();
     // b)Login
     router.post('/user/login',userController.login)
 
+    //c)Admin Login
+    router.post('/admin/login',userController.adminlogin)
+
 // 4)Export router
 module.exports = router

@@ -60,3 +60,26 @@ exports.login = async(req,res)=>{
     }
     
 }
+
+//logic for Admin Login
+exports.adminlogin = async(req,res)=>{
+    console.log('Inside controller adminlogin function.');
+    const {username,password} = req.body
+    try{const admin = await users.findOne({username,password})
+    console.log(admin);
+
+    if(admin){
+        const token = jwt.sign({userId:admin._id},"campussecretkey1234")
+
+        res.status(200).json({
+            admin,
+            token
+        })   
+    }
+    else{
+        res.status(406).json('Incorrect Username or Password!')
+    }}catch(err){
+        res.status(401).json(`Admin Login failed due to ${err}`)
+    }
+    
+}
