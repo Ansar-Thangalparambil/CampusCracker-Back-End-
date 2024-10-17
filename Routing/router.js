@@ -27,5 +27,8 @@ const router = new express.Router();
     //d)Admin Add questions
     router.post('/general/pot/add',generalController.addQuestion)
 
+    //e)Get Arithmetic aptitude questions
+    router.get('/general/arith/pot',generalController.getArithQuestions)
+
 // 4)Export router
 module.exports = router

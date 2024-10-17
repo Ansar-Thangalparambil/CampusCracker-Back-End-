@@ -55,3 +55,30 @@ exports.addQuestion = async(req,res)=>{
         res.status(500).json(`Add question request failed due to ${err}`);
     }
 }
+
+//logic for get arithmetic apt questions
+exports.getArithQuestions = async(req,res)=>{
+    try{
+        const arithQuestions = await general_aptitudes.findOne({
+            'sections.section_name':'Arithmetic_aptitude',
+            'sections.topics.category':'PoT'
+        },{
+            'sections.$':1
+        });
+
+        if(arithQuestions && arithQuestions.sections.length > 0){
+            const section = arithQuestions.sections[0];
+            const topic = section.topics.find(top=> top.category === 'PoT');
+
+            if(topic && topic.questions.length > 0){
+                res.status(200).json(topic.questions);
+            } else{
+                res.status(404).json('No questions found for pot! ')
+            }
+        } else{
+            res.status(404).json('No sections found!')
+        }
+    } catch(err){
+        res.status(400).json(`Request failed due to ${err}`)
+    }
+};
