@@ -30,5 +30,8 @@ const router = new express.Router();
     //e)Get Arithmetic aptitude questions
     router.get('/general/arith/pot',generalController.getArithQuestions)
 
+    //f)Edit question
+    router.put('/qustion/edit/:id',generalController.editQuestions)
+
 // 4)Export router
 module.exports = router

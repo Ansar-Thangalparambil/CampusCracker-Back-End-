@@ -82,3 +82,18 @@ exports.getArithQuestions = async(req,res)=>{
         res.status(400).json(`Request failed due to ${err}`)
     }
 };
+
+//logic for editing a Question
+exports.editQuestions = async(req,res)=>{
+    const {id} = req.params
+    const{question,option_a,option_b,option_c,option_d,answer,explanation} = req.body
+    try {
+        const updateQuestion = await general_aptitudes.findByIdAndUpdate({_id:id},{question,option_a,option_b,option_c,option_d,answer,explanation},{new:true})
+        await updateQuestion.save()
+        res.status(200).json(updateQuestion)
+    } catch (error) {
+        res.status(401).json(error)
+    }
+}
+
+//logic for deleting arith apt questions
