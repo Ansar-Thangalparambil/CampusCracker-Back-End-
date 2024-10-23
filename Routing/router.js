@@ -31,7 +31,7 @@ const router = new express.Router();
     router.get('/general/arith/pot',generalController.getArithQuestions)
 
     //f)Edit question
-    router.put('/qustion/edit/:id',generalController.editQuestions)
+    router.put('/question/edit/:id',generalController.editQuestions)
 
 // 4)Export router
 module.exports = router
