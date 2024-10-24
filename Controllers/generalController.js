@@ -82,3 +82,49 @@ exports.getArithQuestions = async(req,res)=>{
         res.status(400).json(`Request failed due to ${err}`)
     }
 };
+
+//logic for editing a Question
+exports.editQuestions = async(req,res)=>{
+    const {section_name,category,question,option_a,option_b,option_c,option_d,answer,explanation} = req.body;
+    const {id} = req.params;
+
+    try {
+        let general_aptitude = await general_aptitudes.findOne({"sections.section_name":section_name})
+
+        if(general_aptitude){
+            let section = general_aptitude.sections.find(sec => sec.section_name === section_name);
+
+            if(section){
+                let topic = section.topics.find(top => top.category === category)
+
+                if(topic){
+                    let existingQuestion = topic.questions.id(id);
+
+                    if(existingQuestion){
+                        existingQuestion.question = question;
+                        existingQuestion.option_a = option_a;
+                        existingQuestion.option_b = option_b;
+                        existingQuestion.option_c = option_c;
+                        existingQuestion.option_d = option_d;
+                        existingQuestion.answer = answer;
+                        existingQuestion.explanation = explanation;
+
+                        //save the updated question
+                        await general_aptitude.save();
+                        res.status(200).json(existingQuestion);
+                    } else {
+                        res.status(404).json("Question not found!");
+                    }
+                } else {
+                    res.status(404).json('Section not found!')
+                }
+            } else {
+                res.status(404).json('General aptitude data not found!')
+            }
+        }
+    } catch (error) {
+        res.status(500).json(error);
+    }
+}
+
+//logic for deleting arith apt questions
