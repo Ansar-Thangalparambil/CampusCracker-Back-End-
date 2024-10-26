@@ -128,3 +128,32 @@ exports.editQuestions = async(req,res)=>{
 }
 
 //logic for deleting arith apt questions
+exports.deleteArithQuestions = async(req,res)=>{
+    const {id} = req.params
+    const {section_name,category,question,option_a,option_b,option_c,option_d,answer,explanation} = req.body;
+    try {
+        let generalAptitude = await general_aptitudes.findOne({"sections.section_name":section_name})
+        if(generalAptitude){
+            let section = generalAptitude.sections.find(sec=>sec.section_name === section_name)
+            if(section){
+                let topic = section.topics.find(top=>top.category === category)
+                if(topic){
+                    const updatedQstn = topic.questions.filter(q=>q._id.toString() !== id)
+                    topic.questions = updatedQstn
+                    await generalAptitude.save()
+                    res.status(200).json(updatedQstn)
+                }else{
+                    res.status(404).json('Topic not found!');  
+                }
+            }else{
+                res.status(404).json('Section not found!');
+                
+            }
+        } else{
+            res.status(404).json('General not found!');
+            
+        }
+    } catch (error) {
+        res.status(401).json(error)
+    }
+}
