@@ -4,7 +4,7 @@ const { JsonWebTokenError } = require('jsonwebtoken');
 const users = require('../Models/userSchema');
 
 // import jwt
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 // logic for register
 exports.register = async(req,res)=>{
@@ -82,4 +82,14 @@ exports.adminlogin = async(req,res)=>{
         res.status(401).json(`Admin Login failed due to ${err}`)
     }
     
+}
+
+//logic for getting users for Admin
+exports.getAllUsers = async(req,res)=>{
+    try {
+        const vUsers = await users.find()
+        res.status(200).json(vUsers)        
+    } catch (error) {
+        res.status(401).json(`Request failed due to ${error}`)
+    }
 }

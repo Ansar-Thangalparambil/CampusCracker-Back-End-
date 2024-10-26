@@ -36,5 +36,8 @@ const router = new express.Router();
     //i)delete project
     router.delete('/question/remove/:id',generalController.deleteArithQuestions)
 
+    //f)get all users
+    router.get('/admin/allusers',userController.getAllUsers)
+
 // 4)Export router
 module.exports = router
