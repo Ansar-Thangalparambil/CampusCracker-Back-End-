@@ -25,18 +25,18 @@ const router = new express.Router();
     router.post('/admin/login',userController.adminlogin)
 
     //d)Admin Add questions
-    router.post('/general/pot/add',generalController.addQuestion)
+    router.post('/general/arith/add',generalController.addQuestion)
 
-    //e)Get Arithmetic aptitude questions
-    router.get('/general/arith/pot',generalController.getArithQuestions)
+    //e)Get pot questions
+    router.get('/general/:sectionName/:categoryName',generalController.getGeneralQuestions)
 
     //f)Edit question
     router.put('/question/edit/:id',generalController.editQuestions)
 
-    //i)delete project
+    //g)delete project
     router.delete('/question/remove/:id',generalController.deleteArithQuestions)
 
-    //f)get all users
+    //h)get all users
     router.get('/admin/allusers',userController.getAllUsers)
 
 // 4)Export router
