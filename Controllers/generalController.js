@@ -163,3 +163,36 @@ exports.deleteArithQuestions = async(req,res)=>{
         res.status(401).json(error)
     }
 }
+
+//logic for getting exam questions
+exports.getGeneralExam = async(req, res) => {
+    const {sectionName,categoryName} = req.params;
+    if(!sectionName || !categoryName){
+        res.status(400).json('Section and Category required!')
+    }
+
+    try{
+        const arithQuestions = await general_aptitudes.findOne({
+            'sections.section_name':sectionName,
+            'sections.topics.category':categoryName
+        },{
+            'sections.$':1
+        });
+
+        if(arithQuestions && arithQuestions.sections.length > 0){
+            const section = arithQuestions.sections[0];
+            const topic = section.topics.find(top=> top.category === categoryName);
+
+            if(topic && topic.questions.length > 0){
+                res.status(200).json(topic.questions);
+            } else{
+                res.status(404).json('No questions found for the specified category! ')
+            }
+        } else{
+            res.status(404).json('No sections found!')
+        }
+    } catch(err){
+        res.status(400).json(`Request failed due to ${err}`)
+    }
+};
+

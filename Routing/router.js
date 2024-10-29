@@ -27,7 +27,7 @@ const router = new express.Router();
     //d)Admin Add questions
     router.post('/general/arith/add',generalController.addQuestion)
 
-    //e)Get pot questions
+    //e)Get general questions
     router.get('/general/:sectionName/:categoryName',generalController.getGeneralQuestions)
 
     //f)Edit question
@@ -38,6 +38,9 @@ const router = new express.Router();
 
     //h)get all users
     router.get('/admin/allusers',userController.getAllUsers)
+
+    //i) get general exam questions
+    router.get('/general/exam/:sectionName/:categoryName',generalController.getGeneralExam)
 
 // 4)Export router
 module.exports = router
