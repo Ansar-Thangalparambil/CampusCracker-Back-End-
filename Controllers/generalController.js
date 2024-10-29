@@ -56,24 +56,30 @@ exports.addQuestion = async(req,res)=>{
     }
 }
 
-//logic for get arithmetic apt questions
-exports.getArithQuestions = async(req,res)=>{
+//logic for getting arithmetic apt questions
+exports.getGeneralQuestions = async(req,res)=>{
+
+    const {sectionName,categoryName} = req.params;
+    if(!sectionName || !categoryName){
+        res.status(400).json('Section and Category required!')
+    }
+
     try{
         const arithQuestions = await general_aptitudes.findOne({
-            'sections.section_name':'Arithmetic_aptitude',
-            'sections.topics.category':'PoT'
+            'sections.section_name':sectionName,
+            'sections.topics.category':categoryName
         },{
             'sections.$':1
         });
 
         if(arithQuestions && arithQuestions.sections.length > 0){
             const section = arithQuestions.sections[0];
-            const topic = section.topics.find(top=> top.category === 'PoT');
+            const topic = section.topics.find(top=> top.category === categoryName);
 
             if(topic && topic.questions.length > 0){
                 res.status(200).json(topic.questions);
             } else{
-                res.status(404).json('No questions found for pot! ')
+                res.status(404).json('No questions found for the specified category! ')
             }
         } else{
             res.status(404).json('No sections found!')
@@ -130,7 +136,7 @@ exports.editQuestions = async(req,res)=>{
 //logic for deleting arith apt questions
 exports.deleteArithQuestions = async(req,res)=>{
     const {id} = req.params
-    const {section_name,category,question,option_a,option_b,option_c,option_d,answer,explanation} = req.body;
+    const {section_name,category} = req.body;
     try {
         let generalAptitude = await general_aptitudes.findOne({"sections.section_name":section_name})
         if(generalAptitude){
