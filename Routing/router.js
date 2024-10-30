@@ -9,6 +9,9 @@ const userController = require('../Controllers/usercontrollers')
 // import general controller'
 const generalController = require('../Controllers/generalController')
 
+// import jwt Middleware
+const jwtMiddleware = require('../Middlewares/jwtMiddleware')
+
 // 2)create an object for Router() class in the express module
 const router = new express.Router();
 
@@ -41,6 +44,9 @@ const router = new express.Router();
 
     //i) get general exam questions
     router.get('/general/exam/:sectionName/:categoryName',generalController.getGeneralExam)
+
+    //j) adding exam results
+    router.post('/user/results/add',jwtMiddleware,userController.addExamResults)
 
 // 4)Export router
 module.exports = router
