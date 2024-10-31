@@ -96,5 +96,31 @@ exports.getAllUsers = async(req,res)=>{
 
 //logic for adding exam results
 exports.addExamResults = async(req,res) =>{
+    const userId = req.payload
+    console.log(userId);
     
+    const {examResult,category} = req.body
+    
+    console.log(req.body);
+    
+    try {
+        const existingUser = await users.findOne({_id:userId})
+       
+        if(existingUser){
+            const newResult = {
+                category,
+                results:[{
+                    score:examResult.score,
+                    percentage:examResult.percentage,
+                    passed:examResult.passed
+                }]
+            }
+            await users.updateOne({_id:userId},{$push:{performance:newResult}})
+            res.status(200).json(newResult)
+        }else{
+            res.status(404).json('User not found')
+        }
+    } catch (error) {
+        res.status(500).json(`Request failed due to ${error}`)
+    }
 }
