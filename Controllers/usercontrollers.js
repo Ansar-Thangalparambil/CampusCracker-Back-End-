@@ -93,3 +93,8 @@ exports.getAllUsers = async(req,res)=>{
         res.status(401).json(`Request failed due to ${error}`)
     }
 }
+
+//logic for adding exam results
+exports.addExamResults = async(req,res) =>{
+    
+}
