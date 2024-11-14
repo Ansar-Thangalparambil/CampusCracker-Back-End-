@@ -11,6 +11,8 @@ const generalController = require('../Controllers/generalController')
 
 // import jwt Middleware
 const jwtMiddleware = require('../Middlewares/jwtMiddleware')
+//import multer
+const multerConfig = require('../Middlewares/multerMiddleware')
 
 // 2)create an object for Router() class in the express module
 const router = new express.Router();
@@ -47,6 +49,9 @@ const router = new express.Router();
 
     //j) adding exam results
     router.post('/user/results/add',jwtMiddleware,userController.addExamResults)
+
+    //k) updating user details
+    router.put('/user/editprofile',jwtMiddleware,multerConfig,userController.updateUserDetails)
 
 // 4)Export router
 module.exports = router

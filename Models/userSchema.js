@@ -58,6 +58,9 @@ const userSchema = new mongoose.Schema ({
         type : String,
         require:true
     },
+    profileimg:{
+        type:String
+    },
     performance:[resultSchema]
 
 }) 

@@ -95,7 +95,7 @@ exports.getAllUsers = async(req,res)=>{
 }
 
 //logic for adding exam results
-exports.addExamResults = async(req,res) =>{
+exports.addExamResults = async(req,res)=>{
     const userId = req.payload
     console.log(userId);
     
@@ -122,5 +122,30 @@ exports.addExamResults = async(req,res) =>{
         }
     } catch (error) {
         res.status(500).json(`Request failed due to ${error}`)
+    }
+}
+
+//logic for updating user details
+exports.updateUserDetails = async(req,res)=>{
+    console.log('inside update user controller');
+    const userId = req.payload
+    console.log(userId);
+
+    //NOTE! : here we are using a new middleware because the data passed from front end is multipart/form-data => Multer Middleware
+    
+    const {fullname,username,department,yearofstudy,profileimg} = req.body
+    console.log(`${fullname},${username},${department},${yearofstudy},${profileimg}`);
+
+    const uploadedProfileimg = req.file?req.file.filename:profileimg
+    console.log(profileimg);
+    
+    try {
+        const updateUser = await users.findByIdAndUpdate({_id:userId},{fullname,username,department,yearofstudy,profileimg:uploadedProfileimg},{new:true})
+
+        await updateUser.save()
+        res.status(200).json('Update request recieved')
+
+    } catch (error) {
+        res.status(401).json(`Request failed due to ${error}`)
     }
 }
