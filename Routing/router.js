@@ -53,5 +53,8 @@ const router = new express.Router();
     //k) updating user details
     router.put('/user/editprofile',jwtMiddleware,multerConfig,userController.updateUserDetails)
 
+    //l) getting user details
+    router.get('/user/userdetails',jwtMiddleware,userController.getUserDetails)
+
 // 4)Export router
 module.exports = router

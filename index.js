@@ -27,6 +27,9 @@ ccServer.use(express.json())
 // server using the router
 ccServer.use(router);
 
+// server using the uploads folder
+ccServer.use('/uploads',express.static('./uploads')) //first argument => How other applications use folder
+                                                     //second argument => to export that particular folder - express.static
 // 7) customixe port -bydefault - 3000
 const PORT = 4000 || process.env
 

@@ -127,24 +127,35 @@ exports.addExamResults = async(req,res)=>{
 
 //logic for updating user details
 exports.updateUserDetails = async(req,res)=>{
-    console.log('inside update user controller');
     const userId = req.payload
-    console.log(userId);
-
     //NOTE! : here we are using a new middleware because the data passed from front end is multipart/form-data => Multer Middleware
-    
     const {fullname,username,department,yearofstudy,profileimg} = req.body
-    console.log(`${fullname},${username},${department},${yearofstudy},${profileimg}`);
-
+    // console.log(`${fullname},${username},${department},${yearofstudy},${profileimg}`);
     const uploadedProfileimg = req.file?req.file.filename:profileimg
-    console.log(profileimg);
+    console.log(uploadedProfileimg);
     
     try {
         const updateUser = await users.findByIdAndUpdate({_id:userId},{fullname,username,department,yearofstudy,profileimg:uploadedProfileimg},{new:true})
 
         await updateUser.save()
-        res.status(200).json('Update request recieved')
+        res.status(200).json(updateUser)
 
+    } catch (error) {
+        res.status(401).json(`Request failed due to ${error}`)
+    }
+}
+
+//logic for getting user details
+exports.getUserDetails = async(req,res) =>{
+    console.log('Inside getting user controller');
+    try {
+        const userId = req.payload
+        console.log(userId);
+        
+        const userDetails = await users.findOne({_id:userId})
+        console.log(userDetails);
+        
+        res.status(200).json(userDetails)
     } catch (error) {
         res.status(401).json(`Request failed due to ${error}`)
     }
